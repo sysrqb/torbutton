@@ -1,3 +1,8 @@
+2.1.11
+ * Bug 30577: Add Fundraising Banner
+ * Bug 31041: Stop syncing network.cookie.lifetimePolicy
+ * Translations update
+
 2.1.10
  * Bug 30565: sync nocertdb with privatebrowsing.autostart at startup
  * Translations update
