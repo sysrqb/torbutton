@@ -5,6 +5,11 @@
 let {classes: Cc, utils: Cu } = Components;
 let { getBoolPref, setBoolPref, getIntPref, setIntPref } =
     Cu.import("resource://gre/modules/Services.jsm", {}).Services.prefs;
+
+// Used for detecting the current system architecture
+let { XPCOMABI } =
+    Cu.import("resource://gre/modules/Services.jsm", {}).Services.appinfo;
+
 let { bindPref, bindPrefAndInit } =
     Cu.import("resource://torbutton/modules/utils.js", {});
 let logger = Components.classes["@torproject.org/torbutton-logger;1"]
@@ -41,8 +46,16 @@ const kCustomPref = "extensions.torbutton.security_custom";
 // to the pref database.
 var write_setting_to_prefs = function (settingIndex) {
   Object.keys(kSecuritySettings).forEach(
-    prefName => setBoolPref(
-      prefName, kSecuritySettings[prefName][settingIndex]));
+    prefName => {
+      // Bug 31140 - Do not enable IonMonkey on AARCH64.
+      if (XPCOMABI.split("-")[0] == "aarch64" &&
+          prefName == "javascript.options.ion") {
+        setBoolPref(prefName, false);
+        continue;
+      }
+      setBoolPref(
+        prefName, kSecuritySettings[prefName][settingIndex]);
+    });
 };
 
 // __read_setting_from_prefs()__.
