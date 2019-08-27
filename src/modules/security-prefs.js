@@ -51,7 +51,7 @@ var write_setting_to_prefs = function (settingIndex) {
       if (XPCOMABI.split("-")[0] == "aarch64" &&
           prefName == "javascript.options.ion") {
         setBoolPref(prefName, false);
-        continue;
+        return;
       }
       setBoolPref(
         prefName, kSecuritySettings[prefName][settingIndex]);
