@@ -1,3 +1,8 @@
+2.1.13
+ * Bug 31520: Remove monthly giving banner from Tor Browser
+ * Bug 31140: Do not enable IonMonkey on AARCH64
+ * Translations update
+
 2.1.12
  * Bug 30577: Add Fundraising Banner
  * Bug 31041: Stop syncing network.cookie.lifetimePolicy
