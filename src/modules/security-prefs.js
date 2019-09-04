@@ -49,7 +49,8 @@ var write_setting_to_prefs = function (settingIndex) {
     prefName => {
       // Bug 31140 - Do not enable IonMonkey on AARCH64.
       if (XPCOMABI.split("-")[0] == "aarch64" &&
-          prefName == "javascript.options.ion") {
+          (prefName == "javascript.options.ion" ||
+          (prefName == "javascript.options.native_regexp")) {
         setBoolPref(prefName, false);
         return;
       }
@@ -114,11 +115,11 @@ var initialize = function () {
   initialized = true;
   // When security_custom is set to false, apply security_slider setting
   // to the security-sensitive prefs.
-  //bindPrefAndInit(kCustomPref, function (custom) {
-  //  if (custom === false) {
-  //    write_setting_to_prefs(getIntPref(kSliderPref));
-  //  }
-  //});
+  bindPrefAndInit(kCustomPref, function (custom) {
+    if (custom === false) {
+      write_setting_to_prefs(getIntPref(kSliderPref));
+    }
+  });
   // If security_slider is given a new value, then security_custom should
   // be set to false.
   bindPref(kSliderPref, function (prefIndex) {
