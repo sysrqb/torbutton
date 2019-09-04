@@ -114,11 +114,11 @@ var initialize = function () {
   initialized = true;
   // When security_custom is set to false, apply security_slider setting
   // to the security-sensitive prefs.
-  bindPrefAndInit(kCustomPref, function (custom) {
-    if (custom === false) {
-      write_setting_to_prefs(getIntPref(kSliderPref));
-    }
-  });
+  //bindPrefAndInit(kCustomPref, function (custom) {
+  //  if (custom === false) {
+  //    write_setting_to_prefs(getIntPref(kSliderPref));
+  //  }
+  //});
   // If security_slider is given a new value, then security_custom should
   // be set to false.
   bindPref(kSliderPref, function (prefIndex) {
