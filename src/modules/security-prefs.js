@@ -49,8 +49,7 @@ var write_setting_to_prefs = function (settingIndex) {
     prefName => {
       // Bug 31140 - Do not enable IonMonkey on AARCH64.
       if (XPCOMABI.split("-")[0] == "aarch64" &&
-          (prefName == "javascript.options.ion" ||
-          (prefName == "javascript.options.native_regexp")) {
+          prefName == "javascript.options.native_regexp") {
         setBoolPref(prefName, false);
         return;
       }
