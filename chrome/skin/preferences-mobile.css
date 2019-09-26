@@ -22,6 +22,16 @@
   height: auto;
 }
 
+/* See Bug 1481593 and 1583660 for the reason the following
+ * two are needed. */
+input[type=range] {
+  background: none;
+}
+
+input[type=range]::-moz-range-track {
+  background-color: #999;
+}
+
 datalist {
   display: flex;
   flex-direction: row;
