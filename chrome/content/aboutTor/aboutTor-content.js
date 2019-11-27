@@ -132,19 +132,25 @@ var AboutTorListener = {
     let ey2019_locale_url =
         `https://www.torproject.org/donate/donate-tbi-${aLocale}`;
 
-    if (content.document.body.getAttribute("mobile")) {
-      ey2019_elem_id = "ey2019_donate_mobile";
-      ey2019_locale_url =
+    let ey2019_elem_mobile_id = "ey2019_donate_mobile";
+      ey2019_locale_mobile_url =
         `https://www.torproject.org/donate/donate-tbi-mobile-${aLocale}`;
-    }
 
     content.document
       .getElementById(ey2019_elem_id)
       .setAttribute("href", ey2019_locale_url);
 
     content.document
+      .getElementById(ey2019_elem_mobile_id)
+      .setAttribute("href", ey2019_locale_mobile_url);
+
+    content.document
       .getElementById(ey2019_elem_id + "_bottom")
       .setAttribute("href", ey2019_locale_url);
+
+    content.document
+      .getElementById(ey2019_elem_mobile_id + "_bottom")
+      .setAttribute("href", ey2019_locale_mobile_url);
   }
 };
 
