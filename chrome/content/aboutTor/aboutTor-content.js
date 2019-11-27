@@ -63,6 +63,12 @@ var AboutTorListener = {
       }
     });
 
+    bindPrefAndInit("intl.locale.os", aNewVal => {
+      if (aNewVal !== null) {
+        this.onLocaleChange(aNewVal);
+      }
+    });
+
     // Add message and event listeners.
     addMessageListener(this.kAboutTorChromeDataMessage, this);
     addEventListener("pagehide", this, false);
