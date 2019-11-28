@@ -16,7 +16,12 @@
 
 const { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 
-let { bindPrefAndInit, show_torbrowser_manual } = ChromeUtils.import("resource://torbutton/modules/utils.js", {});
+let {
+  bindPrefAndInit,
+  show_torbrowser_manual,
+  getLocale,
+  getPrefValue
+} = ChromeUtils.import("resource://torbutton/modules/utils.js", {});
 
 var AboutTorListener = {
   kAboutTorLoadedMessage: "AboutTor:Loaded",
@@ -58,15 +63,7 @@ var AboutTorListener = {
   onPageLoad: function() {
     // Arrange to update localized text and links.
     bindPrefAndInit("intl.locale.requested", aNewVal => {
-      if (aNewVal !== null) {
-        this.onLocaleChange(aNewVal);
-      }
-    });
-
-    bindPrefAndInit("intl.locale.os", aNewVal => {
-      if (aNewVal !== null) {
-        this.onLocaleChange(aNewVal);
-      }
+      this.onLocaleChange(aNewVal);
     });
 
     // Add message and event listeners.
@@ -116,6 +113,25 @@ var AboutTorListener = {
   },
 
   onLocaleChange: function(aLocale) {
+    // There exist three cases.
+    // intl/locale/LocaleService.cpp:ReadRequestedLocales
+    // and intl/docs/locale_startup.rst
+    // 1) The locale is set by the `requested` pref
+    //  - Use `intl.locale.requested`
+    // 2) We are on Desktop and the `requested` pref is not set
+    //  - Use the default locale
+    // 3) We are on Android and the `requested` pref is empty
+    //  - Use `intl.locale.os`
+    // Fall back on our default locale, if needed.
+    if (aLocale === null) {
+        aLocale = getLocale();
+    } else if (aLocale == "") {
+        aLocale = getPrefValue("intl.locale.os");
+        if (aLocale === null) {
+            aLocale = getLocale();
+        }
+    }
+
     // Set Tor Browser manual link.
     content.document.getElementById("manualLink").href =
                             "https://tb-manual.torproject.org/" + aLocale;
